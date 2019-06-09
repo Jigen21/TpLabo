@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 {
 
     MyAdapter adapter;
-    List<Noticia> noticias = new ArrayList<Noticia>();
+    final List<Noticia> noticias = new ArrayList<Noticia>();
     Handler h;
     public static final int TEXTO = 1;
     public static final int IMAGEN = 2;
@@ -67,12 +67,19 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
         //Handler h =new Handler(this);
         //this.h =new Handler(this);
         //MyThread mt = new MyThread("https://www.lapoliticaonline.com/files/rss/ultimasnoticias.xml",h);
-        MyThread mt = new MyThread("https://www.telam.com.ar/rss2/sociedad.xml",h,TEXTO,0);
+      /*  MyThread mt = new MyThread("https://www.telam.com.ar/rss2/sociedad.xml",h,TEXTO,0);
         mt.start();
+
+        //agregue esto
+        mt = new MyThread("https://www.clarin.com/rss/lo-ultimo/",h,TEXTO,0);
+        mt.start(); */
+
+        //ESTO YA LO AGREGUE
+
 
 
         //ESTO YA LO AGREGUE,borro para probar
-        /*String[] items = new String[]{"https://www.lapoliticaonline.com/files/rss/ultimasnoticias.xml","https://www.telam.com.ar/rss2/sociedad.xml","https://www.telam.com.ar/rss2/deportes.xml","https://www.clarin.com/rss/lo-ultimo/"};
+        String[] items = new String[]{"https://www.lapoliticaonline.com/files/rss/ultimasnoticias.xml","https://www.telam.com.ar/rss2/sociedad.xml","https://www.telam.com.ar/rss2/deportes.xml","https://www.clarin.com/rss/lo-ultimo/"};
         SharedPreferences prefs = getSharedPreferences("miConfig", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         StringBuilder sb = new StringBuilder();
@@ -80,11 +87,59 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
             sb.append(items[i]).append(",");
         }
         editor.putString("paginas", sb.toString());
-        editor.commit();/*
+        editor.commit();
        /* SharedPreferences prefs = getSharedPreferences("miConfig", Context.MODE_PRIVATE);
         String datoStr=prefs.getString("paginas","asd");
         String[] paginas = datoStr.split(",");
         Log.d("Guardado",paginas[0]);*/
+
+
+        SharedPreferences prefsdos = getSharedPreferences("miConfig", Context.MODE_PRIVATE);
+
+
+        String datoStr=prefsdos.getString("paginas","asd");
+
+        final String[] paginas = datoStr.split(",");
+
+        SharedPreferences prefsBooleanos = getSharedPreferences("memory", Context.MODE_PRIVATE);
+
+        boolean[] checkState = {false, false, false, false};
+
+        if (prefsBooleanos.contains("memory"))
+        {
+
+            String mem = prefsBooleanos.getString("memory", "");
+            // mEditPrefs.putString("memory", "");
+            String[] array = mem.split(","); //see below for the getArray() method
+            checkState = new boolean[array.length];
+            for(int nd = 0; nd < array.length; nd++){
+                if(array[nd].equals("true"))
+                {
+                    checkState[nd] = true;
+                } else {
+                    checkState[nd] = false;
+                }
+            }
+
+
+            for(int a = 0;a<paginas.length;a++)
+            {
+                if(checkState[a] == true)
+                {
+                    //Log.d("en true",paginas[a]);
+                    MyThread mt = new MyThread(paginas[a],h,TEXTO,0);
+                    mt.start();
+
+
+                }
+
+            }
+
+
+
+
+
+        }
 
 
 
@@ -102,7 +157,8 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
         if(msg.arg1 == TEXTO)
         {
 
-            this.noticias = (List<Noticia>) msg.obj;
+            //this.noticias = (List<Noticia>) msg.obj;
+            this.noticias.addAll((List<Noticia>) msg.obj);
             adapter.setNoticias(this.noticias);
             adapter.notifyDataSetChanged();
 
@@ -187,10 +243,11 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
                 builder.setTitle("Elija una pagina");
                 //  final String[] items = new String[]{"https://www.lapoliticaonline.com/files/rss/ultimasnoticias.xml","https://www.telam.com.ar/rss2/sociedad.xml","https://www.telam.com.ar/rss2/deportes.xml","https://www.clarin.com/rss/lo-ultimo/"};
 
-                builder.setItems(paginas, new DialogInterface.OnClickListener() {
+               /* builder.setItems(paginas, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         //  Log.d("asdads","asd");
                         //MyThread mt = new MyThread(items[item],h);
+                        noticias.clear();
                         MyThread mt = new MyThread(paginas[item],h,TEXTO,0);
                         mt.start();
 
@@ -198,7 +255,93 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 
 
                     }
+                });*/
+                boolean[] checkState = {false, false, false, false};
+
+
+                SharedPreferences prefsBooleanos = getSharedPreferences("memory", Context.MODE_PRIVATE);
+
+                if (prefsBooleanos.contains("memory"))
+                {
+
+                    String mem = prefsBooleanos.getString("memory", "");
+                    // mEditPrefs.putString("memory", "");
+                    String[] array = mem.split(","); //see below for the getArray() method
+                    checkState = new boolean[array.length];
+                    for(int n = 0; n < array.length; n++){
+                        if(array[n].equals("true"))
+                        {
+                            checkState[n] = true;
+                        } else {
+                            checkState[n] = false;
+                        }
+                    }
+                    final boolean[] checked = checkState;
+
+                }
+
+                //final boolean[] checked = new boolean[] {false, false, false, false};
+
+
+                final boolean[] checked = checkState;
+
+
+
+                builder.setMultiChoiceItems(paginas, checked, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                        checked[i] = b;
+
+                    }
                 });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        // user clicked OK
+
+                        noticias.clear();
+
+                        for(int a = 0;a<paginas.length;a++)
+                        {
+                            if(checked[a] == true)
+                            {
+                                //Log.d("en true",paginas[a]);
+
+                                MyThread mt = new MyThread(paginas[a],h,TEXTO,0);
+                                mt.start();
+
+
+                            }
+
+                        }
+
+                        SharedPreferences prefs = getSharedPreferences("memory", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+
+
+                        String save = "";
+                        for (int n = 0; n < checked.length; n++) {
+
+                                if(checked[n])
+                                {
+                                    save = save + "true" + ",";
+                                } else {
+                                    save = save + "false" + ",";
+                                }
+
+                        }
+                        editor.putString("memory", save);
+                        editor.commit();
+
+
+
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", null);
+
+
                 AlertDialog alert = builder.create();
                 alert.show();
 

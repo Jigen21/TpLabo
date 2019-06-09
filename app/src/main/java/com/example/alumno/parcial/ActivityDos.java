@@ -28,7 +28,18 @@ public class ActivityDos extends AppCompatActivity {
         //web.getSettings().setJavaScriptEnabled(true);
         //setContentView(web);
         Log.d("Pagina",s);
-        web.loadUrl("https://www.telam.com.ar"+s);
+
+
+        if(s.contains("www"))
+        {
+            web.loadUrl(s);
+        }
+        else
+        {
+            web.loadUrl("https://www.telam.com.ar"+s);
+        }
+
+        //web.loadUrl("https://www.telam.com.ar"+s);
 
         Button compartir = (Button)findViewById(R.id.compartir);
         compartir.setOnClickListener(new View.OnClickListener() {
