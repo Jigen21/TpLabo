@@ -23,8 +23,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Handler.Callback , onClickNoticia , SearchView.OnQueryTextListener
@@ -51,7 +53,9 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Noticia n = new Noticia();
+
         //noticias.add(n);
         //noticias.add(n);
 
@@ -159,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 
             //this.noticias = (List<Noticia>) msg.obj;
             this.noticias.addAll((List<Noticia>) msg.obj);
+            Collections.sort(noticias);
             adapter.setNoticias(this.noticias);
             adapter.notifyDataSetChanged();
 

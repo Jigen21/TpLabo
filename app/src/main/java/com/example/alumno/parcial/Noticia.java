@@ -2,6 +2,9 @@ package com.example.alumno.parcial;
 
 import android.support.annotation.NonNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Noticia implements Comparable<Noticia>
@@ -13,6 +16,7 @@ public class Noticia implements Comparable<Noticia>
     private String linkpagina;
     private Date fecha;
     private boolean procesar;
+    private String fechaString;
 
 
 
@@ -44,9 +48,12 @@ public class Noticia implements Comparable<Noticia>
 
 
 
-    public Noticia()
-    {
+    public Noticia() {
         this.procesar = false;
+
+        this.fecha = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+        String fechaString = formatter.format(fecha);
     }
 
     public boolean getProcesar() {
@@ -81,6 +88,15 @@ public class Noticia implements Comparable<Noticia>
         this.linkimagen = linkimagen;
     }
 
+    public String getFechaString()
+    {
+        return fechaString;
+    }
+
+    public void setFechaString(String fechaString)
+    {
+        this.fechaString = fechaString;
+    }
 
     @Override
     public int compareTo(@NonNull Noticia o)

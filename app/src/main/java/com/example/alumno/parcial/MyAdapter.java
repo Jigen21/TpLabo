@@ -55,7 +55,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>
         myViewHolder.titulo.setText(p.getTitulo());
         myViewHolder.descripcion.setText(p.getDescripcion());
        // myViewHolder.imagen.setImageBitmap(BitmapFactory.decodeByteArray(p.getDatosimagen(),0,p.getDatosimagen().length));
-        myViewHolder.fecha.setText(p.getFecha().toString());
+        //myViewHolder.fecha.setText(p.getFecha().toString());
+        myViewHolder.fecha.setText(p.getFechaString().toString());
         myViewHolder.linkpagina.setText(p.getLinkpagina());
         myViewHolder.setPosition(i);
 

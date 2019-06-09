@@ -77,12 +77,25 @@ public class XmlParser
                         // DateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z",Locale.ENGLISH);
                         // String pubDateText = formatter.format(parser.nextText());
 
-                        //DateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz",Locale.ENGLISH);
+                        //este funciona
                         DateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss ZZZZZ", Locale.ENGLISH);
-                        //Date date = formatter.parse("Sat, 24 Apr 2010 14:01:00 GMT");
                         Date date = formatter.parse(parser.nextText());
                         Log.d("fecha",date.toString());
+                        //SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+
+                        //String fecha = "";
+                        //Log.d("FECHA",parser.nextText());
+                        //String subFecha = fecha.split(":")[0];
+
+
+
+                        //este funciona
                         n.setFecha(date);
+
+                        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+                        String fechaString = f.format(date);
+                        n.setFechaString(fechaString);
+                       // n.setFecha(ul);
 
                     }
 
@@ -114,7 +127,8 @@ public class XmlParser
 
         }
 
-        Collections.sort(noticias);
+        //lo comente
+        //Collections.sort(noticias);
         //Collections.reverse(noticias);
 
         return noticias;
