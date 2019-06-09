@@ -102,5 +102,6 @@ public class Noticia implements Comparable<Noticia>
     public int compareTo(@NonNull Noticia o)
     {
         return getFecha().compareTo(o.getFecha());
+        //return getTitulo().compareTo(o.getTitulo());
     }
 }

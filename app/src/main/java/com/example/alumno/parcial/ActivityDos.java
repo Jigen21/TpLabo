@@ -2,6 +2,7 @@ package com.example.alumno.parcial;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,7 +42,7 @@ public class ActivityDos extends AppCompatActivity {
 
         //web.loadUrl("https://www.telam.com.ar"+s);
 
-        Button compartir = (Button)findViewById(R.id.compartir);
+        FloatingActionButton compartir = (FloatingActionButton) findViewById(R.id.compartirr);
         compartir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

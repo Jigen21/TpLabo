@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 
 
         //ESTO YA LO AGREGUE,borro para probar
-        String[] items = new String[]{"https://www.lapoliticaonline.com/files/rss/ultimasnoticias.xml","https://www.telam.com.ar/rss2/sociedad.xml","https://www.telam.com.ar/rss2/deportes.xml","https://www.clarin.com/rss/lo-ultimo/"};
+        String[] items = new String[]{"https://www.iprofesional.com/rss/legales","https://www.telam.com.ar/rss2/sociedad.xml","https://www.telam.com.ar/rss2/deportes.xml","https://www.clarin.com/rss/lo-ultimo/"};
         SharedPreferences prefs = getSharedPreferences("miConfig", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         StringBuilder sb = new StringBuilder();
