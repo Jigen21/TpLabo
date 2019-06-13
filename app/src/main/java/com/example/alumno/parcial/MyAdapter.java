@@ -53,7 +53,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>
     {
         Noticia p = this.noticias.get(i);
         myViewHolder.titulo.setText(p.getTitulo());
-        myViewHolder.descripcion.setText(p.getDescripcion());
+       // myViewHolder.descripcion.setText(p.getDescripcion());
+
+        if(p.getDescripcion().length()>80)
+        {
+            myViewHolder.descripcion.setText(p.getDescripcion().substring(0,80) + "...");
+        }
+        else
+        {
+            myViewHolder.descripcion.setText(p.getDescripcion());
+        }
+
+
+
        // myViewHolder.imagen.setImageBitmap(BitmapFactory.decodeByteArray(p.getDatosimagen(),0,p.getDatosimagen().length));
         //myViewHolder.fecha.setText(p.getFecha().toString());
         myViewHolder.fecha.setText(p.getFechaString().toString());
@@ -94,30 +106,38 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>
 
     public void filter(String text) {
 
-        //this.noticias.clear();
-        this.noticias.clear();
-        //if(text.isEmpty())
-        //if(text.equals("a"))
-        if(text.length()<=3)
+        if(noticiasFull!=null)
         {
-            //ver porque lo cambie
-            Log.d("tamaño lista uno",this.noticias.toString());
-            Log.d("tamaño lista dos",this.noticiasFull.toString());
-            this.noticias.addAll(this.noticiasFull);
-            Log.d("noestavacio","asd");
-        }
-        else {
-            text = text.toLowerCase();
-            for(Noticia item: this.noticiasFull)
+
+            //this.noticias.clear();
+            this.noticias.clear();
+            //if(text.isEmpty())
+            //if(text.equals("a"))
+            if(text.length()<=3)
             {
-                Log.d("titulo",item.getTitulo());
-                if(item.getTitulo().toLowerCase().contains(text))
+                //ver porque lo cambie
+                Log.d("tamaño lista uno",this.noticias.toString());
+                Log.d("tamaño lista dos",this.noticiasFull.toString());
+                this.noticias.addAll(this.noticiasFull);
+                Log.d("noestavacio","asd");
+            }
+            else {
+                text = text.toLowerCase();
+                for(Noticia item: this.noticiasFull)
                 {
-                    this.noticias.add(item);
+                    Log.d("titulo",item.getTitulo());
+                    if(item.getTitulo().toLowerCase().contains(text))
+                    {
+                        this.noticias.add(item);
+                    }
                 }
             }
+            notifyDataSetChanged();
+
         }
-        notifyDataSetChanged();
+
+
+
     }
 
 

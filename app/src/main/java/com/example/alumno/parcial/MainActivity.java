@@ -164,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
             //this.noticias = (List<Noticia>) msg.obj;
             this.noticias.addAll((List<Noticia>) msg.obj);
             Collections.sort(noticias);
+            Collections.reverse(noticias);
             adapter.setNoticias(this.noticias);
             adapter.notifyDataSetChanged();
 
@@ -214,7 +215,6 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
     @Override
     public boolean onQueryTextChange(String newText) {
         this.adapter.filter(newText);
-        //Se puede usar un pattern en Java o un indexOf para buscar coincidencias. Lo que se busca en el search, debe coincidir con el titulo de la noticia.
         Log.d("TextChange", newText);
         return true;
     }
@@ -306,6 +306,8 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
                         // user clicked OK
 
                         noticias.clear();
+                        adapter.notifyDataSetChanged();
+                        adapter.setNoticias(noticias);
 
                         for(int a = 0;a<paginas.length;a++)
                         {
